@@ -1,36 +1,19 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import NewReminder from "./components/NewReminder";
-import ReminderList from "./components/ReminderList";
-import Reminder from "./models/reminder";
-import reminderService from "./services/reminder";
+import { Routes, Route } from "react-router-dom";
+import ReminderPage from "./pages/ReminderPage";
+import PropsPage from "./pages/PropsPage";
+import StatePage from "./pages/StatePage";
 
 function App() {
-  const [reminders, setReminders] = useState<Reminder[]>([]);
-
-  const loadReminders = async () => {
-    const reminders = await reminderService.getReminder();
-    setReminders(reminders);
-  };
-
-  const removeReminder = (id: number) => {
-    setReminders(reminders.filter((reminder) => reminder.id !== id));
-  };
-
-  const addReminder = async (title: string) => {
-    const newReminder = await reminderService.addReminder(title);
-    setReminders([newReminder, ...reminders]);
-  };
-
-  useEffect(() => {
-    loadReminders();
-  }, []);
-
   return (
-    <div className="App">
-      <NewReminder onAddReminder={addReminder} />
-      <ReminderList items={reminders} onRemoveReminder={removeReminder} />
-    </div>
+    <>
+      <Routes>
+        <Route path="/" element={<ReminderPage />} />
+        <Route path="props" element={<PropsPage />} />
+        <Route path="state" element={<StatePage />} />
+      </Routes>
+    </>
   );
 }
 
